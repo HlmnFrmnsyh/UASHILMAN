@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Online - Ayam Geprek Mantap</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/logo.png">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Logo Ayam Geprek Mantap">
+                <span>Ayam Geprek Mantap</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="tentang.html">Tentang</a></li>
+                <li><a href="gallery.html">Galeri</a></li>
+                <li><a href="kontak.html">Kontak</a></li>
+                <li><a href="pesan.html" class="active">Pesan</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="order-page">
+        <h1>Pesan Ayam Geprek Online</h1>
+        <div class="order-highlight">
+            <p>Isi form di bawah untuk memesan. Kami akan segera memproses pesanan Anda!</p>
+        </div>
+        <form class="order-form" action="#" method="post" id="orderForm">
+            <input type="text" name="nama" placeholder="Nama Pemesan" required>
+            <input type="tel" name="telepon" placeholder="No. Telepon" required>
+            <input type="text" name="alamat" placeholder="Alamat Pengantaran" required>
+            <select name="menu" required>
+                <option value="">Pilih Menu</option>
+                <option value="original">Ayam Geprek Original</option>
+                <option value="keju">Ayam Geprek Keju</option>
+                <option value="mozarella">Ayam Geprek Mozarella</option>
+                <option value="matah">Ayam Geprek Sambal Matah</option>
+                <option value="jumbo">Ayam Geprek Jumbo</option>
+                <option value="level10">Ayam Geprek Level 10</option>
+            </select>
+            <input type="number" name="jumlah" placeholder="Jumlah Pesanan" min="1" required>
+            <select name="level" required>
+                <option value="">Level Pedas</option>
+                <option value="1">1 (Mild)</option>
+                <option value="3">3 (Medium)</option>
+                <option value="5">5 (Hot)</option>
+                <option value="7">7 (Extra Hot)</option>
+                <option value="10">10 (Super Pedas)</option>
+            </select>
+            <textarea name="catatan" placeholder="Catatan Tambahan (opsional)"></textarea>
+            <button type="submit" class="btn-primary" id="orderSubmitBtn">Pesan Sekarang</button>
+        </form>
+        <div class="order-info">
+            <h3>Info & Promo</h3>
+            <ul>
+                <li>✅ Free es teh untuk setiap pesanan paket</li>
+                <li>✅ Pesan sebelum jam 17.00 dapat diskon 10%</li>
+                <li>✅ Bisa bayar di tempat (COD)</li>
+                <li>✅ Konfirmasi pesanan via WhatsApp</li>
+            </ul>
+            <div class="order-social">
+                <a href="https://wa.me/6281234567890" target="_blank" class="wa-btn"> Pesan via WhatsApp
+                </a>
+                <a href="tel:081234567890" class="tel-btn">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#ffb300"/><path d="M8 12l4 4 4-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Telepon Langsung
+                </a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <!-- Copyright dihapus sesuai permintaan -->
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('orderForm');
+  var btn = document.getElementById('orderSubmitBtn');
+  if(form && btn) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      btn.disabled = true;
+      var oldText = btn.innerHTML;
+      btn.innerHTML = '<span class="loader"></span> Memproses...';
+      setTimeout(function() {
+        btn.disabled = false;
+        btn.innerHTML = oldText;
+        if(!document.getElementById('order-success-popup')) {
+          var popup = document.createElement('div');
+          popup.id = 'order-success-popup';
+          popup.innerHTML = `
+            <div class="order-popup-inner">
+              <div class='order-popup-illustration'>
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="30" fill="#ffb30033"/><path d="M18 32l8 8 16-16" stroke="#ffb300" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3>Pesanan Berhasil!</h3>
+              <p>Terima kasih sudah memesan di <b>Ayam Geprek Mantap</b>.<br>Pesanan Anda akan segera kami proses dan konfirmasi via WhatsApp.</p>
+              <button onclick="this.parentElement.parentElement.remove()" class="btn-primary" style="margin-top:1.2rem;">Tutup</button>
+            </div>
+          `;
+          document.body.appendChild(popup);
+          setTimeout(function(){ popup.classList.add('show'); }, 10);
+        }
+        form.reset();
+      }, 1200);
+    });
+  }
+});
+</script>
+<style>
+#order-success-popup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.22);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+#order-success-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.order-popup-inner {
+  background: linear-gradient(120deg, #fff8e1 60%, #ffe0b2 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #ffb30033;
+  padding: 2.2rem 2rem 1.5rem 2rem;
+  text-align: center;
+  max-width: 340px;
+  animation: popIn 0.4s cubic-bezier(.23,1.01,.32,1);
+}
+.order-popup-inner h3 {
+  color: #ffb300;
+  font-size: 1.3rem;
+  margin-bottom: 0.7rem;
+}
+.order-popup-inner p {
+  color: #444;
+  font-size: 1.08rem;
+}
+.order-popup-illustration {
+  margin-bottom: 1rem;
+  animation: popIn 0.5s cubic-bezier(.23,1.01,.32,1);
+}
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.loader {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  border: 3px solid #ffb30044;
+  border-top: 3px solid #ffb300;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+</body>
+</html>
